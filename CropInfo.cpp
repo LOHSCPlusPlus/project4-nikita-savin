@@ -1,11 +1,15 @@
 #include "CropInfo.h"
 #include "ReadUtils.h"
 #include <iostream>
+#include <cstring>
 using namespace std;
 /**
 Clear all the values to zero.
 */
 CropInfo::CropInfo(){
+    name = new char[MAX_NAME_LEN];
+    yieldsByYear = new double [NUM_YEARS];
+  
     cropCode = 0;
     for (int index = 0; index < MAX_NAME_LEN; index++) {
         name[index] = '\0';
@@ -13,6 +17,28 @@ CropInfo::CropInfo(){
     for (int index = 0; index < NUM_YEARS; index++) {
         yieldsByYear[index] = 0;
     }
+}
+
+void CropInfo::operator=(const CropInfo &other) {
+  strcpy(name, other.name);
+  for (int i = 0; i < NUM_YEARS; i++) {
+    yieldsByYear[i] = other.yieldsByYear[i];
+  }
+}
+
+void CropInfo::copyConstructor (const CropInfo &other) {
+  name = new char[MAX_NAME_LEN];
+  yieldsByYear = new double [NUM_YEARS];
+
+  strcpy(name, other.name);
+  for (int i = 0; i < NUM_YEARS; i++) {
+    yieldsByYear[i] = other.yieldsByYear[i];
+  }
+}
+
+CropInfo::~CropInfo() {
+  delete [] name;
+  delete [] yieldsByYear;
 }
 /**
 Loads the information from the file specified
